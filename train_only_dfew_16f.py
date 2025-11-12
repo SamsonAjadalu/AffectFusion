@@ -5,6 +5,9 @@ from PIL import Image
 import torch, torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from torchvision import transforms, models
+from sklearn.model_selection import train_test_split
+from collections import Counter
+
 from pathlib import Path
 
 
@@ -72,18 +75,42 @@ def find_split(base_dir, fold, split_kind):
 
 # ---------------- Stratified train/val split (from TRAIN only) ----------------
 def stratified_split(items, val_frac=0.1, seed=42):
-    rng = random.Random(seed)
-    by_lab = defaultdict(list)
-    for cid, lab in items:
-        by_lab[lab].append((cid, lab))
-    tr, va = [], []
-    for lab, lst in by_lab.items():
-        rng.shuffle(lst)
-        k = max(1, int(round(len(lst) * val_frac))) if len(lst) > 2 else 1
-        va.extend(lst[:k]); tr.extend(lst[k:])
-    rng.shuffle(tr); rng.shuffle(va)
-    return tr, va
+    """
+    items: list of (clip_id, label)
+    Returns: (train_items, val_items) stratified by label using sklearn.
+    Falls back to a simple per-class split if a class is too tiny.
+    """
+    if not items:
+        return [], []
 
+    cids = [cid for cid, _ in items]
+    labs = [lab for _, lab in items]
+
+    try:
+        X_tr, X_va, y_tr, y_va = train_test_split(
+            cids, labs,
+            test_size=val_frac,
+            random_state=seed,
+            stratify=labs
+        )
+        train_items = list(zip(X_tr, y_tr))
+        val_items   = list(zip(X_va, y_va))
+        return train_items, val_items
+    except ValueError:
+        # Fallback for ultra-tiny classes
+        from collections import defaultdict
+        rng = random.Random(seed)
+        by_lab = defaultdict(list)
+        for cid, lab in items:
+            by_lab[lab].append((cid, lab))
+        tr, va = [], []
+        for lab, lst in by_lab.items():
+            rng.shuffle(lst)
+            k = max(1, int(round(len(lst) * val_frac))) if len(lst) > 1 else 0
+            va.extend(lst[:k]); tr.extend(lst[k:])
+        rng.shuffle(tr); rng.shuffle(va)
+        return tr, va
+    
 # ---------------- Dataset ----------------
 class DFEWFrames(Dataset):
     """
@@ -185,6 +212,7 @@ def main():
     # Load TRAIN only, then make (train,val)
     train_file = find_split(splits_root, args.fold, "train")
     train_all  = load_split(train_file)
+    print("Train split counts:", Counter(lab for _, lab in train_all))
     train_items, val_items = stratified_split(train_all, val_frac=args.val_frac, seed=args.seed)
 
     # Transforms
