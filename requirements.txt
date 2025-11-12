@@ -1,0 +1,8 @@
+# requirements.txt
+# GPU wheels for PyTorch (keep this line if you have an NVIDIA GPU)
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+numpy>=1.26
+pillow>=10.0
+torch~=2.3
+torchvision~=0.18
