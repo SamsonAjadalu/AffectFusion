@@ -43,7 +43,24 @@ DFEW is assumed to be **Part 2** with pre-extracted 16-frame clips and official 
        ├─ train(single-labeled)/ set_1.csv ... set_5.csv
        └─ test(single-labeled)/  set_1.csv ... set_5.csv
 ```
+### Pretrained checkpoint
 
+If you just want to run the webcam demo or test on your own images without training first, you can use a pretrained 2-class (Positive/Negative) ResNet-101 checkpoint.
+
+- Download from Google Drive:  
+- Download checkpoint: [Google Drive link](https://drive.google.com/file/d/14BUmlN3PLFsbuyaPsYW4kuaVoBaW7I1o/view?usp=drive_link)
+
+After downloading, place the file here (relative to the repo root):
+
+```text
+../models/best_resnet101_2cls_fold1_16f_VAL.pth
+```
+Then you can run:
+```text
+python3 webcam_live_2cls.py \
+  --ckpt ../models/best_resnet101_2cls_fold1_16f_VAL.pth \
+  --arch resnet101
+```
 ---
 
 ## 3. Label presets (class mappings)
