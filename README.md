@@ -43,6 +43,7 @@ landmarks, and normalizing data) automatically.
 This assumes you are already gathering 75 frames to pass into the model:
 ``` python
 import engagement_detector_lib as eng_det
+
 '''
 - frame_buffer is a list of 75 frames.
 - thresholds is a dictionary such as this: 
