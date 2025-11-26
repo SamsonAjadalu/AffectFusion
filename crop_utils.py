@@ -8,7 +8,7 @@ face_cascade = cv2.CascadeClassifier(
 def crop_face(frame_bgr):
     """
     Detect the largest face and return a padded crop (BGR).
-    If no face is found, returns the original frame.
+    If no face is found, return None so the caller can treat it as 'uncertain'.
     """
     h, w = frame_bgr.shape[:2]
     faces = face_cascade.detectMultiScale(
@@ -18,7 +18,7 @@ def crop_face(frame_bgr):
         minSize=(40, 40),
     )
     if len(faces) == 0:
-        return frame_bgr  # fallback
+        return None  # <--- changed: don't return the whole frame
 
     # pick largest face
     x, y, fw, fh = max(faces, key=lambda b: b[2] * b[3])
