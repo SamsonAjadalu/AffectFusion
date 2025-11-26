@@ -1,7 +1,7 @@
 # Real-Time Engagement Detection (Library Module)
 
 This branch contains a library version of the engagement
-detector, designed to be imported into other Python scripts, allowing you to
+detector, designed to be imported into other Python scripts. It allows you to
 pass raw video frames and receive an engagement label.
 
 ------------------------------------------------------------------------
