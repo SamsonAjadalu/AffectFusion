@@ -1,4 +1,4 @@
-# AffectFusion (Demo 1 – Final Branch)
+# AffectFusion 
 
 **webcam emotion demo** 
 
