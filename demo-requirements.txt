@@ -1,0 +1,5 @@
+# we require python 3.9-3.11, not latest. Tensorflow 2.15.0 will not run otherwise.
+
+tensorflow==2.15.0
+sounddevice>=0.4.6
+numpy>=1.23.0,<2.0.0
