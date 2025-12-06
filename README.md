@@ -8,7 +8,7 @@ pass raw video frames and receive an engagement label.
 
 ## 1. Repository Contents
 
--   **engagement_detector_lib.py**\
+-   **demo.py**\
     The main library that handles model loading, feature
     extraction, data padding, and inference.
 
@@ -18,6 +18,9 @@ pass raw video frames and receive an engagement label.
 -   **selected_features_53.json**\
     The specific MediaPipe face mesh indices required by the model.
 
+-   **example.py**\
+    An example script that shows how to use the library
+
 ------------------------------------------------------------------------
 
 ## 2. Prerequisites
@@ -26,7 +29,7 @@ pass raw video frames and receive an engagement label.
 2. Create a virtual environment using **Python 3.11** and activate it.
 3. Install dependencies:
 ```bash
-pip install -r requirements.txt
+pip install -r daisee/requirements.txt
 ```
 
 ------------------------------------------------------------------------
@@ -34,7 +37,7 @@ pip install -r requirements.txt
 ## 3. How to Use
 
 Ensure rf_daisee_model_GAMMA_53features.h5 and selected_features_53.json\
-are in the same folder as engagement_detector_lib.py.\
+are in the same folder as demo.py.\
 Then, simply import the library and call `get_engagement_label`.\
 The library manages the heavy lifting (loading models, processing
 landmarks, and normalizing data) automatically.
@@ -42,7 +45,7 @@ landmarks, and normalizing data) automatically.
 ### Expected Implementation
 This assumes you are already gathering 75 frames to pass into the model:
 ``` python
-import engagement_detector_lib as eng_det
+import demo as eng_det
 
 '''
 - frame_buffer is a list of 75 frames.
