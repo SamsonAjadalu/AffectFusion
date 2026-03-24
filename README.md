@@ -7,7 +7,7 @@ Create conda environment:
 conda create -n tf_env python=3.9.23
 conda activate tf_env
 ```
-Make sure you are running with ```python``` not the system ```py```. running ```py``` will launch the latest version of Python and will not cooperate with tf 2.15.0.
+Make sure you are running with ```python``` not the system ```py```. Running ```py``` will launch the latest version of Python and will not cooperate with tf 2.15.0.
 
 ## Live inference demo
 Install demo requirements:
